@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask
 from flask import request
 from flask import json
@@ -20,6 +21,10 @@ def home():
     data['image'] = article.top_image
     data['keywords'] = article.keywords
     data['authors'] = article.authors
+    if isinstance(article.publish_date, datetime.date):
+        data['published'] = article.publish_date.strftime("%Y-%m-%d %H:%M:00")
+    else:
+        data['published'] = ""
 
     response = app.response_class(
         response=json.dumps(data),
